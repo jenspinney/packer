@@ -57,7 +57,8 @@ func (s *StepAllocateIp) Cleanup(state multistep.StateBag) {
 	ui := state.Get("ui").(packer.Ui)
 	csp := state.Get("csp").(gophercloud.CloudServersProvider)
 	instanceIp := state.Get("access_ip").(gophercloud.FloatingIp)
-	if s.FloatingIpPool != "" && instanceIp.Id != 0 {
+
+	if s.FloatingIpPool != "" && instanceIp.Id != "" {
 		if err := csp.DeleteFloatingIp(instanceIp); err != nil {
 			ui.Error(fmt.Sprintf("Error deleting temporary floating IP %s", instanceIp.Ip))
 			return
